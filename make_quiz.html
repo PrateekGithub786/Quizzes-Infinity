@@ -1,0 +1,209 @@
+<html>
+
+<head>
+    <link rel="icon" type="image/PNG" href="Dahiya%20Quizzes%20Logo.PNG">
+    <title>Make Your Own Quiz</title>
+    <script data-ad-client="ca-pub-6327179341872472" async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
+
+</head>
+
+<body>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6327179341872472"
+        crossorigin="anonymous"></script>
+    <!-- Prateek Unit -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327179341872472" data-ad-slot="7595427217"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    <div class="form">
+        <input type="text" name="name" id="question_input" autocomplete="off" required />
+        <label for="name" class="label-name">
+            <span class="content-name">Question</span>
+        </label>
+    </div>
+    <br>
+    <div class="form">
+        <input type="text" name="name" id="answer_input" autocomplete="off" required />
+        <label for="name" class="label-name">
+            <span class="content-name">Answer</span>
+        </label>
+    </div>
+    <br>
+    <div class="form">
+        <input type="text" name="name" id="op1_input" autocomplete="off" required />
+        <label for="name" class="label-name">
+            <span class="content-name">Option 1</span>
+        </label>
+    </div>
+    <br>
+    <div class="form">
+        <input type="text" name="name" id="op2_input" autocomplete="off" required />
+        <label for="name" class="label-name">
+            <span class="content-name">Option 2</span>
+        </label>
+    </div>
+    <br>
+    <div class="form">
+        <input type="text" name="name" id="op3_input" autocomplete="off" required />
+        <label for="name" class="label-name">
+            <span class="content-name">Option 3</span>
+        </label>
+    </div>
+    <br>
+    <div class="form">
+        <input type="text" name="name" id="op4_input" autocomplete="off" required />
+        <label for="name" class="label-name">
+            <span class="content-name">Option 4</span>
+        </label>
+    </div>
+    <br>
+
+    <button id="button" onclick="save()">
+        <h3>Submit</h3>
+    </button>
+
+    <style>
+        body {
+            height: 60vh;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: column;
+            font-family: sans-serif;
+        }
+
+        .form {
+            width: 50%;
+            position: relative;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .form input {
+            width: 100%;
+            height: 100%;
+            color: #648df5;
+            padding-top: 20px;
+            border: 1px solid white;
+            outline: none;
+        }
+
+        .form label {
+            position: absolute;
+            bottom: 0px;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            border-bottom: 1px solid black;
+        }
+
+        .form label::after {
+            content: "";
+            left: 0px;
+            bottom: -1px;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-bottom: 3px solid rgb(102, 199, 238);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .content-name {
+            position: absolute;
+            bottom: 5px;
+            left: 0px;
+            transition: all 0.3s ease;
+        }
+
+        .form input:focus+.label-name .content-name,
+        .form input:valid+.label-name .content-name {
+            transform: translateY(-150%);
+            font-size: 12px;
+            color: #5fa8d3;
+        }
+
+        .form input:focus+.label-name::after,
+        .form input:valid+.label-name::after {
+            transform: translateX(0%);
+        }
+
+        #button {
+            position: relative;
+            height: 60px;
+            width: 200px;
+            border: none;
+            outline: none;
+            color: #111;
+            background: green;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 15px;
+            font-family: 'Raleway', sans-serif;
+            text-align: center;
+        }
+
+    
+        @keyframes animate {
+            0% {
+                background-position: 0 0;
+            }
+
+            50% {
+                background-position: 400% 0;
+            }
+
+            100% {
+                background-position: 0 0;
+            }
+        }
+    </style>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDs4yrJc5ZSwCzts1Qi1eBfyH7ujsf5KkU",
+            authDomain: "dahiya-quizzes.firebaseapp.com",
+            databaseURL: "https://dahiya-quizzes-default-rtdb.firebaseio.com",
+            projectId: "dahiya-quizzes",
+            storageBucket: "dahiya-quizzes.appspot.com",
+            messagingSenderId: "876007128153",
+            appId: "1:876007128153:web:1e90fb31d1c54dfac50548"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+
+        function ready() {
+            var q = document.getElementById("question_input").value;
+            var a = document.getElementById("answer_input").value;
+            var o1 = document.getElementById("op1_input").value;
+            var o2 = document.getElementById("op2_input").value;
+            var o3 = document.getElementById("op3_input").value;
+            var o4 = document.getElementById("op4_input").value;
+        }
+
+        function save() {
+            ready();
+            firebase.database().ref("quiz/").set({
+                Question: q,
+                Answer: a,
+                Op1: o1,
+                Op2: o2,
+                Op3: o3,
+                Op4: o4
+            });
+            window.location.href = "quiz(1).html";
+        }
+    </script>
+
+</body>
+
+</html>
